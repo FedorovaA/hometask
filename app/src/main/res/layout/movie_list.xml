@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_below="@id/txt_number"
+        tools:text="название" />
+
+    <TextView
+        android:id="@+id/txt_year"
+        android:layout_below="@id/txt_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryDark"
+        tools:text="год выхода" />
+
+    <TextView
+        android:id="@+id/txt_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_below="@id/txt_title"
+        tools:text="оценка" />
+
+    <TextView
+        android:id="@+id/txt_number"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="№" />
+
+    <TextView
+        android:id="@+id/txt_sinops"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_year"
+        android:textColor="@color/colorPrimaryDark"
+        tools:text="синопсис" />
+
+    <ImageView
+        android:id="@+id/poster"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:layout_alignParentRight="true" />
+
+</RelativeLayout>

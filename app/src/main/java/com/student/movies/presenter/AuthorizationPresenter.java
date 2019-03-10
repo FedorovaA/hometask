@@ -19,11 +19,11 @@ public class AuthorizationPresenter extends BasePresenter<AuthorizationView>{
         Password = "password";
      if (login.equals(Login) && password.equals(Password)){
          view.onLoginSuccess("Wellcome");
+         Intent general = new Intent(GENERAL);
+         context.startActivity(general);
      }
      else {
          view.onLoginError("Invalid data");
-//         Intent general = new Intent(GENERAL);
-//         context.startActivity(general);
      }
     }
 
