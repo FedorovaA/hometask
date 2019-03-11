@@ -12,7 +12,11 @@ public class Movie {
     private String movieActors;
     private String movieSite;
 
-    public Movie(int movieNumbers,String movieTitle, String movieYear, String movieMark, String moviePoster, String movieDescription, String movieCountry, String movieAwards, String movieActors, String movieSite) {
+
+    public Movie() {
+    }
+
+    public Movie(int movieNumbers, String movieTitle, String movieYear, String movieMark, String moviePoster, String movieDescription, String movieCountry, String movieAwards, String movieActors, String movieSite) {
         this.movieNumbers = movieNumbers;
         this.movieTitle = movieTitle;
         this.movieYear = movieYear;

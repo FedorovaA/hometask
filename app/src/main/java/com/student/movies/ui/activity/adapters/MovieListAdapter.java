@@ -1,6 +1,7 @@
 package com.student.movies.ui.activity.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,9 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.student.movies.DAO.DataObject;
 import com.student.movies.R;
 import com.student.movies.model.Movie;
 import com.student.movies.presenter.LifePresenter;
+import com.student.movies.ui.activity.MovieItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +31,20 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.movie_list, viewGroup, false);
-        return new ViewHolder(view);
+        final ViewHolder viewHolder = new ViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = viewHolder.getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    Movie movie = movies.get(position);
+                    DataObject.getInstance().setMovie(movie);
+                    Intent intent = new Intent(context, MovieItem.class);
+                    context.startActivity(intent);
+                }
+            }
+        });
+        return viewHolder;
     }
 
     @Override
