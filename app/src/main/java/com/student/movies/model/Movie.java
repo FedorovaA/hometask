@@ -1,13 +1,12 @@
 package com.student.movies.model;
 
 public class Movie {
-    private int movieNumbers;
+    private long movieNumbers;
     private String movieTitle;
-    private String movieYear;
-    private String movieMark;
+    private int movieYear;
+    private double movieMark;
     private String moviePoster;
     private String movieDescription;
-    private String movieCountry;
     private String movieAwards;
     private String movieActors;
     private String movieSite;
@@ -16,24 +15,43 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(int movieNumbers, String movieTitle, String movieYear, String movieMark, String moviePoster, String movieDescription, String movieCountry, String movieAwards, String movieActors, String movieSite) {
+    public Movie(long movieNumbers, String movieTitle, int movieYear, double movieMark, String moviePoster, String movieDescription) {
         this.movieNumbers = movieNumbers;
         this.movieTitle = movieTitle;
         this.movieYear = movieYear;
         this.movieMark = movieMark;
         this.moviePoster = moviePoster;
         this.movieDescription = movieDescription;
-        this.movieCountry = movieCountry;
+    }
+
+    public Movie(long movieNumbers, String movieTitle, int movieYear, double movieMark, String moviePoster, String movieDescription, String movieAwards, String movieActors, String movieSite) {
+        this.movieNumbers = movieNumbers;
+        this.movieTitle = movieTitle;
+        this.movieYear = movieYear;
+        this.movieMark = movieMark;
+        this.moviePoster = moviePoster;
+        this.movieDescription = movieDescription;
+        this.movieAwards = movieAwards;
+        this.movieActors = movieActors;
+        this.movieSite = movieSite;
+    }
+    public Movie(String movieTitle, int movieYear, double movieMark, String moviePoster, String movieDescription,  String movieAwards, String movieActors, String movieSite) {
+        this.movieTitle = movieTitle;
+        this.movieYear = movieYear;
+        this.movieMark = movieMark;
+        this.moviePoster = moviePoster;
+        this.movieDescription = movieDescription;
         this.movieAwards = movieAwards;
         this.movieActors = movieActors;
         this.movieSite = movieSite;
     }
 
-    public int getMovieNumbers() {
+
+    public long getMovieNumbers() {
         return movieNumbers;
     }
 
-    public void setMovieNumbers(int movieNumbers) {
+    public void setMovieNumbers(long movieNumbers) {
         this.movieNumbers = movieNumbers;
     }
 
@@ -45,19 +63,19 @@ public class Movie {
         this.movieTitle = movieTitle;
     }
 
-    public String getMovieYear() {
+    public int getMovieYear() {
         return movieYear;
     }
 
-    public void setMovieYear(String movieYear) {
+    public void setMovieYear(int movieYear) {
         this.movieYear = movieYear;
     }
 
-    public String getMovieMark() {
+    public double getMovieMark() {
         return movieMark;
     }
 
-    public void setMovieMark(String movieMark) {
+    public void setMovieMark(double movieMark) {
         this.movieMark = movieMark;
     }
 
@@ -77,15 +95,7 @@ public class Movie {
         this.movieDescription = movieDescription;
     }
 
-    public String getMovieCountry() {
-        return movieCountry;
-    }
-
-    public void setMovieCountry(String movieCountry) {
-        this.movieCountry = movieCountry;
-    }
-
-    public String getMovieAwards() {
+   public String getMovieAwards() {
         return movieAwards;
     }
 

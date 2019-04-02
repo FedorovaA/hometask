@@ -1,50 +1,60 @@
 package com.student.movies.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.student.movies.DAO.DataObject;
 import com.student.movies.R;
 import com.student.movies.model.Movie;
+import com.student.movies.presenter.MovieAboutFragmentPresenter;
+import com.student.movies.view.MovieAboutFragmentView;
 
-public class MovieItem extends AppCompatActivity {
+public class MovieItem extends AppCompatActivity implements MovieAboutFragment.OnFragmentInteractionListener, MovieChangeFragment.OnFragmentInteractionListener {
+MovieAboutFragment movieAboutFragment;
+MovieChangeFragment movieChangeFragment;
+private String movieId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_item);
+        setContentView(R.layout.activity_list_item);
+        movieId = getIntent().getStringExtra("MOVIEID");
+        if(!movieId.equals("-1")) {
+            movieAboutFragment = MovieAboutFragment.newInstance(movieId);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.movie_frag, movieAboutFragment)
+                    .commit();
+        }else {
+            movieChangeFragment = MovieChangeFragment.newInstance(movieId);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.movie_frag, movieChangeFragment)
+                    .commit();
+        }
+    }
 
-        Movie movie = DataObject.getInstance().getMovie();
 
-        TextView txtTitle = findViewById(R.id.item_title);
-        TextView txtYear = findViewById(R.id.item_year);
-        TextView txtMark = findViewById(R.id.item_mark);
-        TextView txtNumber = findViewById(R.id.item_number);
-        TextView txtDescription = findViewById(R.id.item_sinops);
-        TextView txtCountry = findViewById(R.id.item_country);
-        TextView txtAwards = findViewById(R.id.item_awards);
-        TextView txtActors = findViewById(R.id.item_actors);
-        TextView txtSite = findViewById(R.id.item_site);
-        ImageView imgPoster = findViewById(R.id.item_poster);
+    @Override
+    public void otherFragment(String param) {
+        movieChangeFragment = MovieChangeFragment.newInstance(param);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.movie_frag,movieChangeFragment)
+                .commit();
+    }
 
-        txtTitle.setText(movie.getMovieTitle());
-        txtYear.setText(movie.getMovieYear());
-        txtMark.setText(movie.getMovieMark());
-        txtNumber.setText(Integer.toString(movie.getMovieNumbers()));
-        txtDescription.setText(movie.getMovieDescription());
-        txtCountry.setText(movie.getMovieCountry());
-        txtAwards.setText(movie.getMovieAwards());
-        txtActors.setText(movie.getMovieActors());
-        txtSite.setText(movie.getMovieSite());
-        imgPoster.setImageDrawable(getDrawable(getResources().getIdentifier(movie.getMoviePoster(),"drawable",getPackageName())));
-        imgPoster.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+
+    @Override
+    public void aboutFragment(long id) {
+        movieAboutFragment = MovieAboutFragment.newInstance(String.valueOf(id));
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.movie_frag,movieAboutFragment)
+                .commit();
     }
 }

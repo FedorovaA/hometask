@@ -6,25 +6,33 @@ import android.os.Bundle;
 
 import com.student.movies.view.AuthorizationView;
 
+import khangtran.preferenceshelper.PrefHelper;
+
 public class AuthorizationPresenter extends BasePresenter<AuthorizationView>{
 
-    private String Login;
     private String Password;
 
-    private static final  String GENERAL="SHOW_MOVIE_ACTIVITY";
     public AuthorizationPresenter(){}
 
     public void onLogin(String login,String password, Context context){
-        Login = "admin";
-        Password = "password";
-     if (login.equals(Login) && password.equals(Password)){
+        Password = "qpwoei";
+        if(!login.isEmpty() && !password.isEmpty())
+        {
+            if (password.equals(Password)){
          view.onLoginSuccess("Wellcome");
-         Intent general = new Intent(GENERAL);
-         context.startActivity(general);
+         view.onMovies();
+                PrefHelper.setVal("Auth",true);
      }
+     else {
+                view.onLoginError("Invalid data");
+            }
+        }
      else {
          view.onLoginError("Invalid data");
      }
+    }
+    public boolean isAuth(){
+        return PrefHelper.getBooleanVal("Auth");
     }
 
     @Override

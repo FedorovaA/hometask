@@ -1,30 +1,33 @@
 package com.student.movies.presenter;
 
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 
-import com.student.movies.DAO.DataObject;
+
 import com.student.movies.model.Movie;
+import com.student.movies.model.MoviesModel;
 import com.student.movies.view.MovieListView;
 
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 
-public class MovieListPresenter extends BasePresenter<MovieListView> {
-    private List<Movie> movies;
 
-    public MovieListPresenter(){}
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
+
+public class MovieListPresenter extends BasePresenter<MovieListView> implements IMovieListPresenter {
+    private MoviesModel moviesModel;
+
+
+    public MovieListPresenter(){
+        moviesModel = new MoviesModel();
+    }
+
 
     @Override
     public void onCreate(Bundle saveInstance) {
-        movies = DataObject.getInstance().getMovies();
-        Collections.sort(movies,new Comparator<Movie>(){
-            public int compare(Movie o1, Movie o2){
-                return o1.getMovieMark().compareTo(o2.getMovieMark());
-            }
-        });
-        view.showMovies(movies);
+        //loadMovies();
     }
 
     @Override
@@ -40,5 +43,18 @@ public class MovieListPresenter extends BasePresenter<MovieListView> {
     @Override
     public void onDestroy() {
 
+    }
+
+    @Override
+    public void loadMovies() {
+        view.showLoadingDialog("Loading");
+        Disposable disposable = moviesModel.fetchMovies("desc")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(() -> view.dismissLoadingDialog())
+                .subscribe(list->{view.showMovies(list);},
+                        e->{view.showToast(e.getMessage());
+                    e.printStackTrace();} );
+        addSubscription(disposable);
     }
 }

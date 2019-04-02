@@ -1,6 +1,7 @@
 package com.student.movies.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +31,10 @@ public class Authorization extends AppCompatActivity implements AuthorizationVie
         btnLogin = findViewById(R.id.btn_login);
         authorizationPresenter = new AuthorizationPresenter();
         authorizationPresenter.setView(this);
+        if(authorizationPresenter.isAuth()){
+            onMovies();
+        }
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +57,19 @@ public class Authorization extends AppCompatActivity implements AuthorizationVie
     }
 
     @Override
+    public void onMovies() {
+        Intent general = new Intent(getContext(),MovieListActivity.class);
+        general.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(general);
+    }
+
+    @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public void showToast(String message) {
+
     }
 }

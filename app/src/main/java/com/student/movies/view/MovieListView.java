@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface MovieListView extends BaseView {
     void showMovies(List<Movie> movies);
+    void showLoadingDialog(String message);
+    void dismissLoadingDialog();
 }

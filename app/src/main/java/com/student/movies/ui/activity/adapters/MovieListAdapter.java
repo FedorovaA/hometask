@@ -10,10 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.student.movies.DAO.DataObject;
 import com.student.movies.R;
 import com.student.movies.model.Movie;
-import com.student.movies.presenter.LifePresenter;
 import com.student.movies.ui.activity.MovieItem;
 
 import java.util.ArrayList;
@@ -22,6 +20,7 @@ import java.util.List;
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.ViewHolder> {
     private List<Movie> movies = new ArrayList<>();
     Context context;
+    private String movieId;
 
     public MovieListAdapter(Context context) {this.context = context;}
 
@@ -38,8 +37,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
                 int position = viewHolder.getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     Movie movie = movies.get(position);
-                    DataObject.getInstance().setMovie(movie);
+                    movieId = String.valueOf(movie.getMovieNumbers());
                     Intent intent = new Intent(context, MovieItem.class);
+                    intent.putExtra("MOVIEID",movieId);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     context.startActivity(intent);
                 }
             }
@@ -50,15 +51,18 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final Movie movie = movies.get(i);
+        String str;
+        str = movie.getMovieDescription();
         viewHolder.txtTitle.setText(movie.getMovieTitle());
-        viewHolder.txtYear.setText(movie.getMovieYear());
-        viewHolder.txtNumber.setText(Integer.toString(movie.getMovieNumbers()));
-        viewHolder.txtDescription.setText(new StringBuilder(movie.getMovieDescription().substring(0, 20))
-                .append("..."));
-        viewHolder.txtMark.setText(movie.getMovieMark());
-        viewHolder.imgPoster.setImageDrawable(context.getDrawable(
-                context.getResources().getIdentifier(
-                        movie.getMoviePoster(), "drawable", context.getPackageName())));
+        viewHolder.txtYear.setText(String.valueOf(movie.getMovieYear()));
+        viewHolder.txtNumber.setText(String.valueOf(movie.getMovieNumbers()));
+        viewHolder.txtDescription.setText(str.substring(0, str.indexOf(".") + 1));
+        viewHolder.txtMark.setText(String.valueOf(movie.getMovieMark()));
+        if (movie.getMoviePoster() != null) {
+            viewHolder.imgPoster.setImageDrawable(context.getDrawable(
+                    context.getResources().getIdentifier(
+                            movie.getMoviePoster(), "drawable", context.getPackageName())));
+        }
     }
 
     @Override

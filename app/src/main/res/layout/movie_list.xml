@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,47 +8,86 @@
 
     <TextView
         android:id="@+id/txt_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="53dp"
+        android:layout_height="15dp"
         android:layout_below="@id/txt_number"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toStartOf="@+id/poster"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_number"
         tools:text="название" />
 
     <TextView
         android:id="@+id/txt_year"
-        android:layout_below="@id/txt_mark"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="15dp"
+        android:layout_below="@id/txt_mark"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toStartOf="@+id/poster"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_title"
         tools:text="год выхода" />
 
     <TextView
         android:id="@+id/txt_mark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryDark"
         android:layout_below="@id/txt_title"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="оценка" />
 
     <TextView
         android:id="@+id/txt_number"
-        android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/txt_mark"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="№" />
 
     <TextView
         android:id="@+id/txt_sinops"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="226dp"
+        android:layout_height="155dp"
         android:layout_below="@id/txt_year"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/poster"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_year"
         tools:text="синопсис" />
 
     <ImageView
         android:id="@+id/poster"
-        android:layout_width="wrap_content"
-        android:layout_height="250dp"
-        android:layout_alignParentRight="true" />
+        android:layout_width="150dp"
+        android:layout_height="202dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
