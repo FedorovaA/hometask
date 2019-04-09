@@ -4,7 +4,7 @@ import com.student.movies.api.data.MovieData;
 import com.student.movies.model.Movie;
 
 public interface IMovieChangePresenter {
-    void loadMovie(long id);
+    void loadMovie(Long id);
     void updateMovie(MovieData movie);
     void createMovie(MovieData movie);
 }

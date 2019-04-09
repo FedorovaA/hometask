@@ -28,11 +28,12 @@ import com.student.movies.presenter.MovieAboutFragmentPresenter;
 import com.student.movies.presenter.MovieChangePresenter;
 import com.student.movies.view.MovieChangeView;
 
+import java.util.regex.Pattern;
+
 
 public class MovieChangeFragment extends Fragment implements MovieChangeView {
     private MovieChangePresenter movieChangePresenter;
     private EditText txtTitle;
-    private TextView txtNumber;
     private EditText txtYear;
     private EditText txtMark;
     private EditText txtAwards;
@@ -74,8 +75,6 @@ public class MovieChangeFragment extends Fragment implements MovieChangeView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie_change, container, false);
-        movieChangePresenter = new MovieChangePresenter();
-        movieChangePresenter.setView(this);
         return view;
     }
 
@@ -84,10 +83,8 @@ public class MovieChangeFragment extends Fragment implements MovieChangeView {
         super.onViewCreated(view, savedInstanceState);
         txtTitle = view.findViewById(R.id.item_title1);
         txtYear = view.findViewById(R.id.item_year1);
-        txtYear.addTextChangedListener(yearWatcher);
         txtMark = view.findViewById(R.id.item_mark1);
         txtMark.addTextChangedListener(rateWatcher);
-        txtNumber = view.findViewById(R.id.item_number1);
         txtDescription = view.findViewById(R.id.item_sinops1);
         txtAwards = view.findViewById(R.id.item_awards1);
         txtActors = view.findViewById(R.id.item_actors1);
@@ -97,7 +94,6 @@ public class MovieChangeFragment extends Fragment implements MovieChangeView {
         btn = view.findViewById(R.id.button1);
         if(!mMovieId.equals("-1")){
             btn.setText("Изменить");
-            txtNumber.setVisibility(View.VISIBLE);
             movieChangePresenter.loadMovie(Long.parseLong(mMovieId));
         }
         else {
@@ -119,12 +115,16 @@ public class MovieChangeFragment extends Fragment implements MovieChangeView {
     }
 
     private void Options(){
-        if(mMovieId.equals("-1")){
-            movieChangePresenter.createMovie(crMovie());
+        if(validYear()) {
+            if (mMovieId.equals("-1")) {
+                movieChangePresenter.createMovie(crMovie());
 
+            } else {
+                movieChangePresenter.updateMovie(upMovie());
+            }
         }
         else {
-            movieChangePresenter.updateMovie(upMovie());
+            Toast.makeText(getContext(),"Год заполнен неверно",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -138,6 +138,8 @@ public class MovieChangeFragment extends Fragment implements MovieChangeView {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        movieChangePresenter = new MovieChangePresenter();
+        movieChangePresenter.setView(this);
     }
 
     private MovieData crMovie(){
@@ -157,23 +159,24 @@ public class MovieChangeFragment extends Fragment implements MovieChangeView {
     }
 
     private MovieData upMovie(){
-        final MovieData movieData = new MovieData();
-        movieData.setId(Long.parseLong((String) txtNumber.getText()));
-        movieData.setTitle(txtTitle.getText().toString());
-        movieData.setYear(Integer.parseInt(txtYear.getText().toString()));
-        movieData.setActors(txtActors.getText().toString());
-        movieData.setDescription(txtDescription.getText().toString());
-        movieData.setAwards(txtAwards.getText().toString());
-        movieData.setPoster(txtImagePoster);
-        movieData.setWebsite(txtSite.getText().toString());
-        movieData.setRate(Double.parseDouble(txtMark.getText().toString()));
-        return movieData;
+            final MovieData movieData = new MovieData();
+            movieData.setId(Long.parseLong(mMovieId));
+            movieData.setTitle(txtTitle.getText().toString());
+            movieData.setYear(Integer.parseInt(txtYear.getText().toString()));
+            movieData.setActors(txtActors.getText().toString());
+            movieData.setDescription(txtDescription.getText().toString());
+            movieData.setAwards(txtAwards.getText().toString());
+            movieData.setPoster(txtImagePoster);
+            movieData.setWebsite(txtSite.getText().toString());
+            movieData.setRate(Double.parseDouble(txtMark.getText().toString()));
+            return movieData;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        movieChangePresenter = null;
     }
 
     @Override
@@ -186,7 +189,6 @@ public class MovieChangeFragment extends Fragment implements MovieChangeView {
         txtTitle.setText(movie.getMovieTitle());
         txtYear.setText(String.valueOf(movie.getMovieYear()));
         txtMark.setText(String.valueOf(movie.getMovieMark()));
-        txtNumber.setText(String.valueOf(movie.getMovieNumbers()));
         txtDescription.setText(movie.getMovieDescription());
         txtAwards.setText(movie.getMovieAwards());
         txtActors.setText(movie.getMovieActors());
@@ -197,37 +199,7 @@ public class MovieChangeFragment extends Fragment implements MovieChangeView {
         }
     }
 
-    private TextWatcher rateWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-                if (s.length() > 2) {
-                    if (!(s.charAt(0) >= '0' && s.charAt(0) <= '9') && s.length()==3) {
-                        s.clear();
-                    } else if (!(s.charAt(1) == '.')&& s.length()==3) {
-                        s.clear();
-                    } else if (!(s.charAt(2) >= '0' && s.charAt(2) <= '9')&& s.length()==3) {
-                        s.clear();
-                    } else if(s.length()==4 &&!(s.charAt(0)=='1' && s.charAt(1)=='0' && s.charAt(2)=='.' && s.charAt(3)=='0')){
-                        s.clear();
-                    }
-                }
-            else if(s.length()>4){
-                s.clear();
-            }
-        }
-    };
-
-    private TextWatcher yearWatcher = new TextWatcher() {
+    private final TextWatcher rateWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -239,33 +211,21 @@ public class MovieChangeFragment extends Fragment implements MovieChangeView {
 
         @Override
         public void afterTextChanged(Editable s) {
-            if(s.length()==4) {
-                if (s.charAt(0) < '1' && s.charAt(0) > '2') {
-                    s.clear();
-                } else if (s.charAt(1) < '8' && s.charAt(0) == '1') {
-                    s.clear();
-                } else if (s.charAt(1) > '1' && s.charAt(0) == '2') {
-                    s.clear();
-                } else if (s.charAt(2) < '5' && s.charAt(0) == '1' && s.charAt(1) >= '8') {
-                    s.clear();
-                } else if (s.charAt(2) != '0' && s.charAt(1) <= '1' && s.charAt(0) == '2') {
-                    s.clear();
-                } else if (s.charAt(3) != '0' && s.charAt(0) == '2') {
-                    s.clear();
-                }
-            }
-            else if(s.length()>4){
-                s.replace(3,4,"");
-            }
+            if(!Pattern.matches("^([0-9](\\.[0-9]?)?)|(10(\\.0?)?)$",s))
+            s.clear();
         }
     };
+
+    private boolean validYear(){
+        return (Integer.parseInt(txtYear.getText().toString())>=1850 && Integer.parseInt(txtYear.getText().toString())<=2100);
+    }
 
     @Override
-    public void onOtherFragment(long id) {
+    public void onOtherFragment(Long id) {
         mListener.aboutFragment(id);
     }
 
     public interface OnFragmentInteractionListener {
-        void aboutFragment(long id);
+        void aboutFragment(Long id);
     }
 }

@@ -4,5 +4,5 @@ import com.student.movies.model.Movie;
 
 public interface MovieChangeView extends BaseView {
     void showItemMovie(Movie movie);
-    void onOtherFragment(long id);
+    void onOtherFragment(Long id);
 }

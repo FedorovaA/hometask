@@ -27,12 +27,10 @@ public class MovieListPresenter extends BasePresenter<MovieListView> implements 
 
     @Override
     public void onCreate(Bundle saveInstance) {
-        //loadMovies();
     }
 
     @Override
     public void onStart() {
-
     }
 
     @Override

@@ -28,7 +28,6 @@ import com.student.movies.view.MovieAboutFragmentView;
 public class MovieAboutFragment extends Fragment implements MovieAboutFragmentView {
     private MovieAboutFragmentPresenter movieAboutFragmentPresenter;
     private TextView txtTitle;
-    private TextView txtNumber;
     private TextView txtYear;
     private TextView txtMark;
     private TextView txtAwards;
@@ -72,8 +71,6 @@ public class MovieAboutFragment extends Fragment implements MovieAboutFragmentVi
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
         menuInflater = getActivity().getMenuInflater();
-        movieAboutFragmentPresenter = new MovieAboutFragmentPresenter();
-        movieAboutFragmentPresenter.setView(this);
         return view;
     }
 
@@ -83,7 +80,6 @@ public class MovieAboutFragment extends Fragment implements MovieAboutFragmentVi
         txtTitle = view.findViewById(R.id.item_title);
         txtYear = view.findViewById(R.id.item_year);
         txtMark = view.findViewById(R.id.item_mark);
-        txtNumber = view.findViewById(R.id.item_number);
         txtDescription = view.findViewById(R.id.item_sinops);
         txtAwards = view.findViewById(R.id.item_awards);
         txtActors = view.findViewById(R.id.item_actors);
@@ -103,6 +99,8 @@ public class MovieAboutFragment extends Fragment implements MovieAboutFragmentVi
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        movieAboutFragmentPresenter = new MovieAboutFragmentPresenter();
+        movieAboutFragmentPresenter.setView(this);
     }
     @Override
     public void onCreateOptionsMenu(Menu menu,MenuInflater menuInflater) {
@@ -113,13 +111,10 @@ public class MovieAboutFragment extends Fragment implements MovieAboutFragmentVi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.action_delete){
-            movieAboutFragmentPresenter.deleteMovie(Long.parseLong(txtNumber.getText().toString()));
+            movieAboutFragmentPresenter.deleteMovie(Long.parseLong(mMovieId));
         }
         if(item.getItemId() == R.id.action_edit){
             mListener.otherFragment(mMovieId);
-        }
-        if(item.getItemId()==R.id.action_back){
-            onActivity();
         }
         return true;
     }
@@ -128,6 +123,7 @@ public class MovieAboutFragment extends Fragment implements MovieAboutFragmentVi
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        movieAboutFragmentPresenter = null;
     }
 
     @Override
@@ -135,7 +131,6 @@ public class MovieAboutFragment extends Fragment implements MovieAboutFragmentVi
         txtTitle.setText(movie.getMovieTitle());
         txtYear.setText(String.valueOf(movie.getMovieYear()));
         txtMark.setText(String.valueOf(movie.getMovieMark()));
-        txtNumber.setText(String.valueOf(movie.getMovieNumbers()));
         txtDescription.setText(movie.getMovieDescription());
         txtAwards.setText(movie.getMovieAwards());
         txtActors.setText(movie.getMovieActors());
@@ -153,20 +148,16 @@ public class MovieAboutFragment extends Fragment implements MovieAboutFragmentVi
         else {
             showToast("Такого фильма нет");
         }
-        onActivity();
+        mListener.onActivity();
     }
 
     @Override
     public void showToast(String message) {
         Toast.makeText(getActivity(),message,Toast.LENGTH_SHORT).show();
     }
-    private void onActivity(){
-        Intent intent = new Intent(getContext(), MovieListActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-    }
 
     public interface OnFragmentInteractionListener {
         void otherFragment(String param);
+        void onActivity();
     }
 }

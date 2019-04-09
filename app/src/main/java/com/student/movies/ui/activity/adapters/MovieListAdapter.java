@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.student.movies.R;
 import com.student.movies.model.Movie;
-import com.student.movies.ui.activity.MovieItem;
+import com.student.movies.ui.activity.MovieItemActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +38,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
                 if (position != RecyclerView.NO_POSITION) {
                     Movie movie = movies.get(position);
                     movieId = String.valueOf(movie.getMovieNumbers());
-                    Intent intent = new Intent(context, MovieItem.class);
+                    Intent intent = new Intent(context, MovieItemActivity.class);
                     intent.putExtra("MOVIEID",movieId);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     context.startActivity(intent);
                 }
             }
@@ -55,7 +54,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         str = movie.getMovieDescription();
         viewHolder.txtTitle.setText(movie.getMovieTitle());
         viewHolder.txtYear.setText(String.valueOf(movie.getMovieYear()));
-        viewHolder.txtNumber.setText(String.valueOf(movie.getMovieNumbers()));
+        viewHolder.txtNumber.setText(String.valueOf(i+1));
         viewHolder.txtDescription.setText(str.substring(0, str.indexOf(".") + 1));
         viewHolder.txtMark.setText(String.valueOf(movie.getMovieMark()));
         if (movie.getMoviePoster() != null) {

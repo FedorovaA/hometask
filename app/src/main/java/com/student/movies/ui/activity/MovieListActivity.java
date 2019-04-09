@@ -5,12 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -27,9 +28,8 @@ public class MovieListActivity extends AppCompatActivity implements MovieListVie
     private MovieListAdapter movieListAdapter;
     private MovieListPresenter movieListPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    protected Dialog dialog;
+    private AlertDialog builder;
     RecyclerView recyclerView;
-    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +39,16 @@ public class MovieListActivity extends AppCompatActivity implements MovieListVie
         setSupportActionBar(toolbar);
         movieListPresenter = new MovieListPresenter();
         movieListPresenter.setView(this);
+        builder = new AlertDialog.Builder(getContext()).create();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), MovieItem.class);
+                Intent intent = new Intent(getContext(), MovieItemActivity.class);
                 intent.putExtra("MOVIEID","-1");
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                finish();
             }
         });
         movieListAdapter = new MovieListAdapter(this);
@@ -56,7 +57,6 @@ public class MovieListActivity extends AppCompatActivity implements MovieListVie
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(movieListAdapter);
         swipeRefreshLayout = findViewById(R.id.movieSwipe);
-        progressBar = findViewById(R.id.progressBar1);
         swipeRefreshLayout.setOnRefreshListener(() -> movieListPresenter.loadMovies());
         movieListPresenter.loadMovies();
 
@@ -75,12 +75,16 @@ public class MovieListActivity extends AppCompatActivity implements MovieListVie
 
     @Override
     public void showLoadingDialog(String message) {
-        progressBar.setVisibility(ProgressBar.VISIBLE);
+        builder.setTitle(message);
+        builder.setCancelable(false);
+        builder.show();
+
+
     }
 
     @Override
     public void dismissLoadingDialog() {
-        progressBar.setVisibility(ProgressBar.INVISIBLE);
+        builder.dismiss();
         if (swipeRefreshLayout != null) {
             swipeRefreshLayout.setRefreshing(false);
         }

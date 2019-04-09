@@ -12,12 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.student.movies.MyApplication;
 import com.student.movies.R;
 import com.student.movies.model.Movie;
 import com.student.movies.presenter.MovieAboutFragmentPresenter;
 import com.student.movies.view.MovieAboutFragmentView;
 
-public class MovieItem extends AppCompatActivity implements MovieAboutFragment.OnFragmentInteractionListener, MovieChangeFragment.OnFragmentInteractionListener {
+public class MovieItemActivity extends AppCompatActivity implements MovieAboutFragment.OnFragmentInteractionListener, MovieChangeFragment.OnFragmentInteractionListener {
 MovieAboutFragment movieAboutFragment;
 MovieChangeFragment movieChangeFragment;
 private String movieId;
@@ -28,15 +29,9 @@ private String movieId;
         setContentView(R.layout.activity_list_item);
         movieId = getIntent().getStringExtra("MOVIEID");
         if(!movieId.equals("-1")) {
-            movieAboutFragment = MovieAboutFragment.newInstance(movieId);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.movie_frag, movieAboutFragment)
-                    .commit();
+            aboutFragment(Long.parseLong(movieId));
         }else {
-            movieChangeFragment = MovieChangeFragment.newInstance(movieId);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.movie_frag, movieChangeFragment)
-                    .commit();
+            otherFragment(movieId);
         }
     }
 
@@ -47,11 +42,18 @@ private String movieId;
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.movie_frag,movieChangeFragment)
                 .commit();
+
+    }
+
+
+        @Override
+    public void onActivity() {
+        finish();
     }
 
 
     @Override
-    public void aboutFragment(long id) {
+    public void aboutFragment(Long id) {
         movieAboutFragment = MovieAboutFragment.newInstance(String.valueOf(id));
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.movie_frag,movieAboutFragment)

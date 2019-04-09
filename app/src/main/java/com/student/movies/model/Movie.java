@@ -1,7 +1,7 @@
 package com.student.movies.model;
 
 public class Movie {
-    private long movieNumbers;
+    private Long movieNumbers;
     private String movieTitle;
     private int movieYear;
     private double movieMark;
@@ -15,7 +15,7 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(long movieNumbers, String movieTitle, int movieYear, double movieMark, String moviePoster, String movieDescription) {
+    public Movie(Long movieNumbers, String movieTitle, int movieYear, double movieMark, String moviePoster, String movieDescription) {
         this.movieNumbers = movieNumbers;
         this.movieTitle = movieTitle;
         this.movieYear = movieYear;
@@ -24,7 +24,7 @@ public class Movie {
         this.movieDescription = movieDescription;
     }
 
-    public Movie(long movieNumbers, String movieTitle, int movieYear, double movieMark, String moviePoster, String movieDescription, String movieAwards, String movieActors, String movieSite) {
+    public Movie(Long movieNumbers, String movieTitle, int movieYear, double movieMark, String moviePoster, String movieDescription, String movieAwards, String movieActors, String movieSite) {
         this.movieNumbers = movieNumbers;
         this.movieTitle = movieTitle;
         this.movieYear = movieYear;
@@ -51,7 +51,7 @@ public class Movie {
         return movieNumbers;
     }
 
-    public void setMovieNumbers(long movieNumbers) {
+    public void setMovieNumbers(Long movieNumbers) {
         this.movieNumbers = movieNumbers;
     }
 

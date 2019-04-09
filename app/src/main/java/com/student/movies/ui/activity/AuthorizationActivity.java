@@ -13,7 +13,7 @@ import com.student.movies.R;
 import com.student.movies.presenter.AuthorizationPresenter;
 import com.student.movies.view.AuthorizationView;
 
-public class Authorization extends AppCompatActivity implements AuthorizationView {
+public class AuthorizationActivity extends AppCompatActivity implements AuthorizationView {
 
     EditText edtLogin;
     EditText edtPassword;

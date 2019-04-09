@@ -33,7 +33,7 @@ public class MovieChangePresenter extends BasePresenter<MovieChangeView> impleme
     }
 
     @Override
-    public void loadMovie(long id) {
+    public void loadMovie(Long id) {
         Disposable disposable = moviesModel.fetchMovie(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

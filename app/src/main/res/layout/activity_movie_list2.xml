@@ -22,14 +22,6 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_movie_list" />
-    <ProgressBar
-        android:id="@+id/progressBar1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:layout_marginTop="56dp"
-        android:layout_gravity="center_horizontal">
-    </ProgressBar>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
