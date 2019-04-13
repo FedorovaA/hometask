@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import okhttp3.Authenticator;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -16,8 +17,10 @@ public class RestApi {
 
     private static Retrofit retrofit = null;
 
-    public static void init(Context context) {
-        OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
+    public static void init(Context context, Authenticator authenticator) {
+        OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new BearerAuthorizationInterceptor(context))
+                .authenticator(authenticator);
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

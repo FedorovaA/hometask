@@ -10,15 +10,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.student.movies.R;
-import com.student.movies.presenter.AuthorizationPresenter;
-import com.student.movies.view.AuthorizationView;
+import com.student.movies.presenter.AuthorizationActivityPresenter;
+import com.student.movies.view.AuthorizationActivityView;
 
-public class AuthorizationActivity extends AppCompatActivity implements AuthorizationView {
+import khangtran.preferenceshelper.PrefHelper;
+
+public class AuthorizationActivity extends AppCompatActivity implements AuthorizationActivityView {
 
     EditText edtLogin;
     EditText edtPassword;
     Button btnLogin;
-    AuthorizationPresenter authorizationPresenter;
+    Button btnRegister;
+    AuthorizationActivityPresenter authorizationActivityPresenter;
 
 
     @Override
@@ -29,17 +32,22 @@ public class AuthorizationActivity extends AppCompatActivity implements Authoriz
         edtLogin = findViewById(R.id.edt_login);
         edtPassword = findViewById(R.id.edt_password);
         btnLogin = findViewById(R.id.btn_login);
-        authorizationPresenter = new AuthorizationPresenter();
-        authorizationPresenter.setView(this);
-        if(authorizationPresenter.isAuth()){
+        btnRegister = findViewById(R.id.btn_register);
+        authorizationActivityPresenter = new AuthorizationActivityPresenter();
+        authorizationActivityPresenter.setView(this);
+        if(authorizationActivityPresenter.isAuth()){
             onMovies();
         }
 
-
+        btnRegister.setOnClickListener(v->{
+            Intent intent = new Intent(getContext(),RegisterActivity.class);
+            startActivity(intent);
+        });
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                authorizationPresenter.onLogin(edtLogin.getText().toString(),edtPassword.getText().toString(),getContext());
+                PrefHelper.removeAllKeys();
+                authorizationActivityPresenter.onLogin(edtLogin.getText().toString(),edtPassword.getText().toString(),getContext());
             }
         });
 
@@ -53,14 +61,14 @@ public class AuthorizationActivity extends AppCompatActivity implements Authoriz
 
     @Override
     public void onLoginError(String message) {
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onMovies() {
         Intent general = new Intent(getContext(),MovieListActivity.class);
-        general.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(general);
+        finish();
     }
 
     @Override

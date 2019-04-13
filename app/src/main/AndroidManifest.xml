@@ -13,10 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.activity.RegisterActivity"></activity>
         <activity
             android:name=".ui.activity.MovieListActivity"
             android:label="@string/title_activity_movie_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.activity.AuthorizationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

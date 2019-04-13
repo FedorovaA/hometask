@@ -48,7 +48,8 @@ private String movieId;
 
         @Override
     public void onActivity() {
-        finish();
+        Intent intent = new Intent(this,MovieListActivity.class);
+        startActivity(intent);
     }
 
 

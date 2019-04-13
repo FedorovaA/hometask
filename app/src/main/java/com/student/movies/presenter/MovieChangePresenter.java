@@ -4,11 +4,13 @@ import android.os.Bundle;
 
 import com.student.movies.api.data.MovieData;
 import com.student.movies.model.MoviesModel;
+import com.student.movies.utils.Constants;
 import com.student.movies.view.MovieChangeView;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import khangtran.preferenceshelper.PrefHelper;
 
 public class MovieChangePresenter extends BasePresenter<MovieChangeView> implements IMovieChangePresenter {
     private MoviesModel moviesModel;
@@ -34,7 +36,7 @@ public class MovieChangePresenter extends BasePresenter<MovieChangeView> impleme
 
     @Override
     public void loadMovie(Long id) {
-        Disposable disposable = moviesModel.fetchMovie(id)
+        Disposable disposable = moviesModel.fetchMovie(Constants.AUTHORIZATION_HEADER+Constants.TOKEN_PREFIX+PrefHelper.getStringVal(Constants.TOKEN),id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(item->{view.showItemMovie(item);},
@@ -44,7 +46,7 @@ public class MovieChangePresenter extends BasePresenter<MovieChangeView> impleme
 
     @Override
     public void updateMovie(MovieData movie) {
-        Disposable disposable = moviesModel.updateMovie(movie)
+        Disposable disposable = moviesModel.updateMovie(Constants.AUTHORIZATION_HEADER+Constants.TOKEN_PREFIX+PrefHelper.getStringVal(Constants.TOKEN),movie)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(item->{view.onOtherFragment(item.getMovieNumbers());},
@@ -54,7 +56,8 @@ public class MovieChangePresenter extends BasePresenter<MovieChangeView> impleme
 
     @Override
     public void createMovie(MovieData movie) {
-        Disposable disposable = moviesModel.createMovie(movie)
+
+        Disposable disposable = moviesModel.createMovie(Constants.AUTHORIZATION_HEADER+Constants.TOKEN_PREFIX+PrefHelper.getStringVal(Constants.TOKEN),movie)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(item->{view.onOtherFragment(item.getMovieNumbers());},
