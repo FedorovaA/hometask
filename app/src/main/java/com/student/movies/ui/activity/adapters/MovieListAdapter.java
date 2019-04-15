@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.student.movies.R;
+import com.student.movies.api.data.MovieData;
 import com.student.movies.model.Movie;
 import com.student.movies.ui.activity.MovieItemActivity;
 
@@ -18,13 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.ViewHolder> {
-    private List<Movie> movies = new ArrayList<>();
+    private List<MovieData> movies = new ArrayList<>();
     Context context;
     private String movieId;
 
     public MovieListAdapter(Context context) {this.context = context;}
 
-    public void setMovies (List<Movie> movies) {this.movies = movies;}
+    public void setMovies (List<MovieData> movies) {this.movies = movies;}
 
     @NonNull
     @Override
@@ -36,8 +37,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    Movie movie = movies.get(position);
-                    movieId = String.valueOf(movie.getMovieNumbers());
+                    MovieData movie = movies.get(position);
+                    movieId = String.valueOf(movie.getId());
                     Intent intent = new Intent(context, MovieItemActivity.class);
                     intent.putExtra("MOVIEID",movieId);
                     context.startActivity(intent);
@@ -49,18 +50,18 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        final Movie movie = movies.get(i);
+        final MovieData movie = movies.get(i);
         String str;
-        str = movie.getMovieDescription();
-        viewHolder.txtTitle.setText(movie.getMovieTitle());
-        viewHolder.txtYear.setText(String.valueOf(movie.getMovieYear()));
+        str = movie.getDescription();
+        viewHolder.txtTitle.setText(movie.getTitle());
+        viewHolder.txtYear.setText(String.valueOf(movie.getYear()));
         viewHolder.txtNumber.setText(String.valueOf(i+1));
         viewHolder.txtDescription.setText(str.substring(0, str.indexOf(".") + 1));
-        viewHolder.txtMark.setText(String.valueOf(movie.getMovieMark()));
-        if (movie.getMoviePoster() != null) {
+        viewHolder.txtMark.setText(String.valueOf(movie.getRate()));
+        if (movie.getPoster() != null) {
             viewHolder.imgPoster.setImageDrawable(context.getDrawable(
                     context.getResources().getIdentifier(
-                            movie.getMoviePoster(), "drawable", context.getPackageName())));
+                            movie.getPoster(), "drawable", context.getPackageName())));
         }
     }
 

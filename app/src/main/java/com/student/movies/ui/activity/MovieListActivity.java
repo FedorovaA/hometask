@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.student.movies.R;
+import com.student.movies.api.data.MovieData;
 import com.student.movies.model.Movie;
 import com.student.movies.presenter.MovieListPresenter;
 import com.student.movies.ui.activity.adapters.MovieListAdapter;
@@ -68,7 +69,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieListVie
     }
 
     @Override
-    public void showMovies(List<Movie> movies) {
+    public void showMovies(List<MovieData> movies) {
         movieListAdapter.setMovies(movies);
         movieListAdapter.notifyDataSetChanged();
     }

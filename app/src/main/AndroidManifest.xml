@@ -2,9 +2,35 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.student.movies">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
+    <!--<uses-permission android:name="android.permission.WAKE_LOCK" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!--<uses-permission android:name="android.permission.CAMERA" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> &lt;!&ndash; <uses-permission android:name="android.permission.WAKE_LOCK" /> &ndash;&gt;-->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- <uses-permission android:name="android.permission.RECORD_AUDIO"/> -->
+    <!--<uses-feature-->
+        <!--android:name="android.hardware.camera"-->
+        <!--android:required="true" /> &lt;!&ndash; <uses-feature &ndash;&gt;-->
+    <!-- android:name="android.hardware.touchscreen" -->
+    <!-- android:required="false"/> -->
+    <!-- <uses-feature -->
+    <!-- android:name="android.software.leanback" -->
+    <!-- android:required="true"/> -->
+    <!-- <uses-feature android:name="android.hardware.touchscreen" -->
+    <!-- android:required="false"/> -->
+    <!-- <uses-feature android:name="android.hardware.faketouch" -->
+    <!-- android:required="false"/> -->
+    <!-- <uses-feature android:name="android.hardware.telephony" -->
+    <!-- android:required="false"/> -->
+    <!-- &lt;!&ndash;<uses-feature android:name="android.hardware.camera"&ndash;&gt; -->
+    <!-- &lt;!&ndash;android:required="false"/>&ndash;&gt; -->
+    <!-- <uses-feature android:name="android.hardware.nfc" -->
+    <!-- android:required="false"/> -->
+    <!-- <uses-feature android:name="android.hardware.location.gps" -->
+    <!-- android:required="false"/> -->
+    <!-- <uses-feature android:name="android.hardware.microphone" -->
+    <!-- android:required="false"/> -->
+    <!-- <uses-feature android:name="android.hardware.sensor" -->
+    <!-- android:required="false"/> -->
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -13,7 +39,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.RegisterActivity"></activity>
+        <activity android:name=".ui.activity.RegisterActivity" />
         <activity
             android:name=".ui.activity.MovieListActivity"
             android:label="@string/title_activity_movie_list"

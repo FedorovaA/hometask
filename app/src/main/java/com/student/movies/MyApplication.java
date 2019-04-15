@@ -16,7 +16,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         PrefHelper.initHelper(this);
-//        RestApi.init();
+        //RestApi.init();
         RestApi.init(this,(route, response) -> {
 
             String refreshToken = PrefHelper.getStringVal(Constants.REFRESHTOKEN,null);//Prefs.get().getString(Prefs.Keys.RefreshToken.toString(), null);
